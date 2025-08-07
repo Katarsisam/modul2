@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/types.h>
 
 void print_permissions(mode_t mode) {
     // Буквенное представление

@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <arpa/inet.h>
+#include <time.h>
 
 // Функция для проверки принадлежности IP адреса к подсети
 int is_in_subnet(uint32_t ip, uint32_t gateway, uint32_t mask) {

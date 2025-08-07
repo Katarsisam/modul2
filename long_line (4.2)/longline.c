@@ -4,24 +4,24 @@
 
 #define MAX_PRIORITY 255
 
-// Структура элемента очереди
+// РЎС‚СЂСѓРєС‚СѓСЂР° СЌР»РµРјРµРЅС‚Р° РѕС‡РµСЂРµРґРё
 typedef struct Node {
     int data;
     int priority;
     struct Node* next;
 } Node;
 
-// Структура очереди с приоритетом
+// РЎС‚СЂСѓРєС‚СѓСЂР° РѕС‡РµСЂРµРґРё СЃ РїСЂРёРѕСЂРёС‚РµС‚РѕРј
 typedef struct {
     Node* front;
 } PriorityQueue;
 
-// Инициализация очереди
+// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РѕС‡РµСЂРµРґРё
 void initQueue(PriorityQueue* q) {
     q->front = NULL;
 }
 
-// Добавление элемента в очередь с приоритетом
+// Р”РѕР±Р°РІР»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РІ РѕС‡РµСЂРµРґСЊ СЃ РїСЂРёРѕСЂРёС‚РµС‚РѕРј
 void enqueue(PriorityQueue* q, int data, int priority) {
     if (priority < 0 || priority > MAX_PRIORITY) {
         printf("Invalid priority! Must be between 0 and %d\n", MAX_PRIORITY);
@@ -33,13 +33,13 @@ void enqueue(PriorityQueue* q, int data, int priority) {
     newNode->priority = priority;
     newNode->next = NULL;
 
-    // Если очередь пуста или новый элемент имеет более высокий приоритет, чем первый
+    // Р•СЃР»Рё РѕС‡РµСЂРµРґСЊ РїСѓСЃС‚Р° РёР»Рё РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РёРјРµРµС‚ Р±РѕР»РµРµ РІС‹СЃРѕРєРёР№ РїСЂРёРѕСЂРёС‚РµС‚, С‡РµРј РїРµСЂРІС‹Р№
     if (q->front == NULL || priority > q->front->priority) {
         newNode->next = q->front;
         q->front = newNode;
     } else {
         Node* current = q->front;
-        // Находим место для вставки
+        // РќР°С…РѕРґРёРј РјРµСЃС‚Рѕ РґР»СЏ РІСЃС‚Р°РІРєРё
         while (current->next != NULL && current->next->priority >= priority) {
             current = current->next;
         }
@@ -48,11 +48,11 @@ void enqueue(PriorityQueue* q, int data, int priority) {
     }
 }
 
-// Извлечение первого элемента из очереди
+// РР·РІР»РµС‡РµРЅРёРµ РїРµСЂРІРѕРіРѕ СЌР»РµРјРµРЅС‚Р° РёР· РѕС‡РµСЂРµРґРё
 int dequeueFront(PriorityQueue* q) {
     if (q->front == NULL) {
         printf("Queue is empty!\n");
-        return -1; // или другое значение, обозначающее ошибку
+        return -1; // РёР»Рё РґСЂСѓРіРѕРµ Р·РЅР°С‡РµРЅРёРµ, РѕР±РѕР·РЅР°С‡Р°СЋС‰РµРµ РѕС€РёР±РєСѓ
     }
 
     Node* temp = q->front;
@@ -62,7 +62,7 @@ int dequeueFront(PriorityQueue* q) {
     return data;
 }
 
-// Извлечение элемента с указанным приоритетом
+// РР·РІР»РµС‡РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РїСЂРёРѕСЂРёС‚РµС‚РѕРј
 int dequeueWithPriority(PriorityQueue* q, int priority) {
     if (priority < 0 || priority > MAX_PRIORITY) {
         printf("Invalid priority! Must be between 0 and %d\n", MAX_PRIORITY);
@@ -74,7 +74,7 @@ int dequeueWithPriority(PriorityQueue* q, int priority) {
         return -1;
     }
 
-    // Если первый элемент имеет нужный приоритет
+    // Р•СЃР»Рё РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ РёРјРµРµС‚ РЅСѓР¶РЅС‹Р№ РїСЂРёРѕСЂРёС‚РµС‚
     if (q->front->priority == priority) {
         return dequeueFront(q);
     }
@@ -82,7 +82,7 @@ int dequeueWithPriority(PriorityQueue* q, int priority) {
     Node* current = q->front;
     Node* prev = NULL;
 
-    // Ищем элемент с нужным приоритетом
+    // РС‰РµРј СЌР»РµРјРµРЅС‚ СЃ РЅСѓР¶РЅС‹Рј РїСЂРёРѕСЂРёС‚РµС‚РѕРј
     while (current != NULL && current->priority != priority) {
         prev = current;
         current = current->next;
@@ -99,7 +99,7 @@ int dequeueWithPriority(PriorityQueue* q, int priority) {
     return data;
 }
 
-// Извлечение элемента с приоритетом не ниже заданного
+// РР·РІР»РµС‡РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° СЃ РїСЂРёРѕСЂРёС‚РµС‚РѕРј РЅРµ РЅРёР¶Рµ Р·Р°РґР°РЅРЅРѕРіРѕ
 int dequeueWithMinPriority(PriorityQueue* q, int minPriority) {
     if (minPriority < 0 || minPriority > MAX_PRIORITY) {
         printf("Invalid priority! Must be between 0 and %d\n", MAX_PRIORITY);
@@ -111,7 +111,7 @@ int dequeueWithMinPriority(PriorityQueue* q, int minPriority) {
         return -1;
     }
 
-    // Если первый элемент удовлетворяет условию
+    // Р•СЃР»Рё РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ СѓРґРѕРІР»РµС‚РІРѕСЂСЏРµС‚ СѓСЃР»РѕРІРёСЋ
     if (q->front->priority >= minPriority) {
         return dequeueFront(q);
     }
@@ -119,7 +119,7 @@ int dequeueWithMinPriority(PriorityQueue* q, int minPriority) {
     Node* current = q->front;
     Node* prev = NULL;
 
-    // Ищем первый элемент с подходящим приоритетом
+    // РС‰РµРј РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ СЃ РїРѕРґС…РѕРґСЏС‰РёРј РїСЂРёРѕСЂРёС‚РµС‚РѕРј
     while (current != NULL && current->priority < minPriority) {
         prev = current;
         current = current->next;
@@ -130,7 +130,7 @@ int dequeueWithMinPriority(PriorityQueue* q, int minPriority) {
         return -1;
     }
 
-    // Если это первый элемент в очереди
+    // Р•СЃР»Рё СЌС‚Рѕ РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ РѕС‡РµСЂРµРґРё
     if (prev == NULL) {
         q->front = current->next;
     } else {
@@ -142,7 +142,7 @@ int dequeueWithMinPriority(PriorityQueue* q, int minPriority) {
     return data;
 }
 
-// Печать очереди (для отладки)
+// РџРµС‡Р°С‚СЊ РѕС‡РµСЂРµРґРё (РґР»СЏ РѕС‚Р»Р°РґРєРё)
 void printQueue(PriorityQueue* q) {
     Node* current = q->front;
     printf("Queue: ");
@@ -153,13 +153,13 @@ void printQueue(PriorityQueue* q) {
     printf("\n");
 }
 
-// Тестирующая программа
+// РўРµСЃС‚РёСЂСѓСЋС‰Р°СЏ РїСЂРѕРіСЂР°РјРјР°
 int main() {
     PriorityQueue q;
     initQueue(&q);
     srand(time(0));
 
-    // Генерация случайных сообщений с различными приоритетами
+    // Р“РµРЅРµСЂР°С†РёСЏ СЃР»СѓС‡Р°Р№РЅС‹С… СЃРѕРѕР±С‰РµРЅРёР№ СЃ СЂР°Р·Р»РёС‡РЅС‹РјРё РїСЂРёРѕСЂРёС‚РµС‚Р°РјРё
     printf("Adding elements to the queue:\n");
     for (int i = 0; i < 10; i++) {
         int data = rand() % 100;
@@ -169,7 +169,7 @@ int main() {
     }
     printQueue(&q);
 
-    // Извлечение элементов различными способами
+    // РР·РІР»РµС‡РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ СЂР°Р·Р»РёС‡РЅС‹РјРё СЃРїРѕСЃРѕР±Р°РјРё
     printf("\nDequeue front: %d\n", dequeueFront(&q));
     printQueue(&q);
 
