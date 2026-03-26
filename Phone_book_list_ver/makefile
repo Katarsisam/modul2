@@ -29,25 +29,26 @@ libs_a/libph.a: $(UTILS_OBJ) # Static library
 
 libs_so/libph.so: $(UTILS_OBJ) # Shared library
 	mkdir -p libs_so
-	gcc -shared -o $@ $^
+	gcc -fPIC -shared -o $@ $^
 
 libmaker: clean libs_a/libph.a libs_so/libph.so
-	mkdir -p build
-	mv utils/*.o build
+	mkdir -p obj
+	mv utils/*.o obj
 
 install: libmaker
+	mkdir -p build
 	# Static version
-	gcc $(CFLAGS) PhoneBook1.c -Llibs_a -lph -lncurses $(LDFLAGS) -o build/PhoneBook1X1
+	gcc $(CFLAGS) PhoneBook1.c -Llibs_a -lph $(LDFLAGS) -o build/PhoneBook1X1
 	# Dynamic version
-	gcc $(CFLAGS) PhoneBook1.c -Llibs_so -lph -lncurses $(LDFLAGS) -Wl,-rpath=./libs_so -o build/PhoneBook1X2
+	gcc $(CFLAGS) PhoneBook2.c -ldl $(LDFLAGS) -o build/PhoneBook1X2
 
-runX1: install
-	build/PhoneBook1X1
-runX2: install
-	build/PhoneBook1X2
+runX1: 
+	./build/PhoneBook1X1
+runX2: 
+	./build/PhoneBook1X2
 
 clean:
-	rm -rf *.o utils/*.o libs_so libs_a build
+	rm -rf *.o utils/*.o libs_so libs_a build obj
 
 clear:
 	clear

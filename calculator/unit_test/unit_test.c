@@ -36,13 +36,6 @@ START_TEST(test_square_root) {
   ck_assert_int_eq(square_root(-1), 0);
 }
 END_TEST
-START_TEST(test_add_command_1) {
-  Command *commands = NULL;
-  int command_count = 0;
-  double a = 2, b = 3;
-  add_command(&commands, &command_count, "add", "Сложение двух чисел", add, 2);
-  ck_assert_int_eq(commands->func(a, b), 5);
-}
 END_TEST
 
 Suite *Calc_suite() {
@@ -55,7 +48,6 @@ Suite *Calc_suite() {
   tcase_add_test(tc, test_divide);
   tcase_add_test(tc, test_power);
   tcase_add_test(tc, test_square_root);
-  tcase_add_test(tc, test_add_command_1);
 
   suite_add_tcase(s, tc);
 

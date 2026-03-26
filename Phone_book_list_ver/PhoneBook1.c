@@ -1,13 +1,12 @@
 #include "PhoneBook1.h"
 
-
-
 int main() {
     int choice;
-    int contactCount = 0;
-    Contact contacts[MAX_CONTACTS];
+    ContactList phoneBook;
+    initList(&phoneBook);
+
     do {
-        printf("\nТелефонная книга\n");
+        printf("\n=== Телефонная книга (двухсвязный упорядоченный список) ===\n");
         printf("1. Добавить контакт\n");
         printf("2. Просмотреть все контакты\n");
         printf("3. Редактировать контакт\n");
@@ -16,19 +15,19 @@ int main() {
         printf("Выберите действие: ");
         scanf("%d", &choice);
         getchar(); // очистка буфера
-        
+
         switch (choice) {
             case 1:
-                addContact(contacts, contactCount);
+                addContact(&phoneBook);
                 break;
             case 2:
-                displayContacts(contacts, contactCount);
+                displayContacts(&phoneBook);
                 break;
             case 3:
-                editContact(contacts, contactCount);
+                editContact(&phoneBook);
                 break;
             case 4:
-                deleteContact(contacts, contactCount);
+                deleteContact(&phoneBook);
                 break;
             case 0:
                 printf("Выход из программы...\n");
@@ -37,6 +36,7 @@ int main() {
                 printf("Неверный выбор!\n");
         }
     } while (choice != 0);
-    
+
+    freeList(&phoneBook);
     return 0;
 }

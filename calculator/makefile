@@ -1,7 +1,7 @@
 
 SHELL = /bin/sh
 
-CFLAGS = -Wall -Wextra -std=c11 -g
+CFLAGS = -Wall -Wextra -std=c11 -g -fPIC
 LDFLAGS = -lcheck -lsubunit -lm
 U_SRC := $(wildcard utils/*.c)
 LIB := $(addprefix lib,$(notdir $(U_SRC:.c=.so)))
@@ -23,19 +23,18 @@ endif
 all: clear install
 
 %.o: utils/%.c
-	gcc $(CFLAGS) -c $< -fPIC -o $@
+	gcc $(CFLAGS) -c $< -o $@
 
 lib%.so: %.o
-	gcc -shared -o $@ $<
+	gcc -fPIC -shared -o $@ $<
 	
 
 libmaker: clean $(LIB)
-	mkdir -p build
-	mkdir -p libs
-	mv *.o build | mv *.so libs
+	mkdir -p build libs obj
+	mv *.o obj | mv *.so libs
 
 install: libmaker
-	gcc $(CFLAGS) -Wl,-rpath=./libs -o build/Calculator Calculator.c -L./libs $(addprefix -l,$(LNAME)) $(LDFLAGS) 
+	gcc $(CFLAGS) -o build/Calculator Calculator.c -ldl $(LDFLAGS) 
 
 run: install
 	build/Calculator
@@ -44,7 +43,7 @@ uninstall:
 	rm -rf build
 
 clean:
-	rm -rf build gcov libs
+	rm -rf build gcov libs obj
 	
 test: libmaker
 	gcc $(CFLAGS) -Wl,-rpath=./libs unit_test/unit_test.c -L./libs $(addprefix -l,$(LNAME)) $(LDFLAGS) -o unit_test/unit_test
