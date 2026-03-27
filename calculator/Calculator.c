@@ -3,7 +3,7 @@
 #include <string.h>
 #include <dlfcn.h>
 
-typedef double (*CalcFunc)(double, ...);   // оставляем как просил
+typedef double (*CalcFunc)(double, ...);   
 
 typedef struct {
     char name[20];
